@@ -1,0 +1,32 @@
+GlowScript 2.9 VPython
+print('움직일 물체와 그 속도 성분/c 을 모두 써주세요 ex) kn:0.6,0.6,0 rd:0.8,0.8,0.8 st:0,0,0')
+obin= input().split()
+obdc={}
+dt =1
+tlim=80
+for i in len(obin):
+    n= i.replace(':',' ').replace(',',' ').split()
+    who=n[0]
+    obdc[who]= shpere(pos = vector(0,0,0), radius = 5)
+    obcd[who].velocity = vector(n[1],n[2],n[3])
+    obcd[who].vfnl =((n[1])**2+(n[2])**2+(n[3])**2)**0.5
+    obcd[who].vx=n[1]
+    obcd[who].vy=n[2]
+    obcd[who].vz=n[3]
+def gamma(n):
+    return (1-n**2)**(-0.5)
+obli=[]
+for i in obdc:
+    obli.append(i)
+print(obli,'순으로 보여줍니다.')
+for i in range(len(obli)):
+    obi=obli[i]
+    while t<tlim * i:
+        rate(1)
+        t += dt
+        for j in range(len(obli)):
+            obj=obli[j]
+            obdc[obj].velocity.x = (gamma(obcd[obi].vx)*(obcd[obj].vx-obcd[obi].vx))/(gamma(obcd[obi].vfnl)*(1-(obcd[obi].vfnl*obcd[obj].vx)))
+            obdc[obj].velocity.y = (gamma(obcd[obi].vy)*(obcd[obj].vy-obcd[obi].vy))/(gamma(obcd[obi].vfnl)*(1-(obcd[obi].vfnl*obcd[obj].vy)))
+            obdc[obj].velocity.z = (gamma(obcd[obi].vz)*(obcd[obj].vz-obcd[obi].vz))/(gamma(obcd[obi].vfnl)*(1-(obcd[obi].vfnl*obcd[obj].vz)))
+            obdc[obj].pos += obdc[obi].velocity *dt
